@@ -14,12 +14,6 @@ class TOONTANKS_API APawnTank : public APawnBase
 {
 	GENERATED_BODY()
 	
-private:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
-	USpringArmComponent* SpringArm;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
-	UCameraComponent* Camera;
-	
 public:
 	APawnTank();
 	
@@ -31,5 +25,25 @@ public:
 protected:	
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;
-	
+
+private:
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+    USpringArmComponent* SpringArm;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+    UCameraComponent* Camera;
+
+	float MoveSpeed = 100.0f;
+	float RotateSpeed = 100.0f;
+
+	FVector MoveDirection;
+	FQuat RotationDirection;
+
+	UFUNCTION()
+    void CalculateMoveInput(float Value);
+	UFUNCTION()
+    void CalculateRotateInput(float Value);
+	UFUNCTION()
+    void Move();
+	UFUNCTION()
+    void Rotate();
 };
