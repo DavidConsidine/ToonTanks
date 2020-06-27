@@ -15,6 +15,13 @@ void APawnTurret::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if(!PlayerPawn || ReturnDistanceToPlayer() > FireRange)
+	{
+		return;
+	}
+	// If we have a PlayerPawn in range then rotate the turret to follow
+	RotateTurret(PlayerPawn->GetActorLocation());
+
 }
 
 void APawnTurret::CheckFireCondition()
@@ -28,7 +35,7 @@ void APawnTurret::CheckFireCondition()
 	if(ReturnDistanceToPlayer() <= FireRange)
 	{
 		// Fire
-		UE_LOG(LogTemp, Warning, TEXT("FIRE!!"));
+		Fire();
 	}
 }
 
@@ -51,4 +58,9 @@ void APawnTurret::BeginPlay()
 	UE_LOG(LogTemp, Warning, TEXT("Begin Play"));
 	GetWorld()->GetTimerManager().SetTimer(FireRateTimerHandle, this, &APawnTurret::CheckFireCondition, FireRate, true, false);
 	PlayerPawn = Cast<APawnTank>(UGameplayStatics::GetPlayerPawn(this, 0));
+}
+
+void APawnTurret::HandleDestruction()
+{
+	Super::HandleDestruction();
 }
