@@ -11,10 +11,17 @@ UHealthComponent::UHealthComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
+}
+
+
+// Called when the game starts
+void UHealthComponent::BeginPlay()
+{
+	Super::BeginPlay();
 
 	Health = DefaultHealth;
-
 	
+	GameModeRef = Cast<ATankGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 
 	Owner = GetOwner();
 	if(Owner)
@@ -27,16 +34,6 @@ UHealthComponent::UHealthComponent()
 	}
 }
 
-
-// Called when the game starts
-void UHealthComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	GameModeRef = Cast<ATankGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	
-}
-
 void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType,
 	AController* InstigatedBy, AActor* DamageActor)
 {
@@ -46,7 +43,7 @@ void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDam
 	}
 
 	Health = FMath::Clamp(Health - Damage, 0.0f, DefaultHealth);
-
+	
 	if(Health <= 0)
 	{
 		if(GameModeRef)
