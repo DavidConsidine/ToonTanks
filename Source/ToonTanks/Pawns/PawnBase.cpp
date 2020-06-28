@@ -25,6 +25,11 @@ APawnBase::APawnBase()
 	ProjectileSpawnPoint->SetupAttachment(TurretMesh);
 }
 
+void APawnBase::PawnDestroyed()
+{
+	HandleDestruction();
+}
+
 void APawnBase::RotateTurret(FVector LookAtTarget)
 {
 	// Update TurretMesh rotation to face towards the LookAtTarget passed in from the child Class.
