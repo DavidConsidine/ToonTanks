@@ -22,6 +22,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	bool GetPlayerAlive();
+
 protected:	
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;
@@ -43,6 +45,8 @@ private:
 
 	APlayerController* PlayerControllerRef;
 	FHitResult TraceHitResult;
+
+	bool bAlive = true;
 
 	UFUNCTION()
     void CalculateMoveInput(float Value);
